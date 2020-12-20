@@ -11,6 +11,8 @@ Componentes:
 * Sensor efecto hall A3144 o equivalente (opcional, solo si se desea disponer de información y control variable de rpm durante el vuelo).
 * Cables servo RC con conectores.
 
+![](polos_controlador_02.jpg)
+
 Herramientas:
 * Soldador de punta convencional.
 * Estaño standard de electrónica.
