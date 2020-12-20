@@ -1,0 +1,10 @@
+{
+	"partida": 5,
+	"vuelo": 30,
+	"rpm": 50,
+	"polos": 10,
+	"offset": 0,
+	"tolajrpm": 1000,
+	"ajrpmtrep": 750,
+	"ajrpmbaj": 500
+}

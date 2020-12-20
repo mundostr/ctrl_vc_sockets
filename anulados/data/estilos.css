@@ -1,0 +1,69 @@
+html, body {
+	color: #fff;
+	background-color: #333;
+}
+
+.btnParametro {
+	width: 100%;
+	color: #fff !important;
+	margin-bottom: 16px;
+	text-align: left;
+}
+
+.slidecontainer {
+	width: 100%;
+	text-align: center;
+}
+
+.slider {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 80%;
+	height: 8px;
+	background: #999;
+	border-radius: 4px;
+	outline: none;
+	opacity: 0.7;
+	-webkit-transition: .2s;
+	transition: opacity .2s;
+	margin: 0 auto;
+}
+  
+.slider:hover {
+	opacity: 1;
+}
+  
+.slider::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 24px;
+	height: 24px;
+	border-radius: 12px;
+	background: #39c;
+	cursor: pointer;
+}
+  
+.slider::-moz-range-thumb {
+	width: 24px;
+	height: 24px;
+	border-radius: 12px;
+	background: #39c;
+	cursor: pointer;
+}
+
+.mui-tabs__bar>li>a {
+	color: #fff;
+}
+
+.mui-tabs__pane {
+	padding: 16px;
+}
+
+.mui-btn--small {
+	font-size: 32px;
+}
+
+.mui-btn--fab.mui-btn--small {
+	width: 50px;
+	height: 50px;
+}

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Controlador VC sockets</title>
+	<link href="mui.min.css" rel="stylesheet" type="text/css" />
+	<link href="estilos.css" rel="stylesheet" type="text/css" />
+	<script src="mui.min.js"></script>
+	<script src="vue.min.js"></script>
+</head>
+
+<body>
+	<div id="app">
+		<div class="mui-container-fluid" style="padding: 0;">
+			<div class="mui-appbar mui--appbar-height mui--appbar-line-height mui--text-center" :class="wsConectado ? 'mui--bg-primary' : 'mui--bg-danger'" style="position: fixed; width: 100%; z-index: 10000;">
+				<span class="mui--text-headline">Controlador {{ textoEstado }}</span>
+			</div>
+
+			<div class="mui-row" v-show="wsConectado" style="margin: 8px; margin-top: 64px;">
+				<ul class="mui-tabs__bar">
+					<li><a data-mui-toggle="tab" data-mui-controls="pane-default-1">WiFi</a></li>
+					<li class="mui--is-active"><a data-mui-toggle="tab" data-mui-controls="pane-default-2">Controlador</a></li>
+					<li><a data-mui-toggle="tab" data-mui-controls="pane-default-3">Utiles</a></li>
+				</ul>
+
+				<div class="mui-tabs__pane" id="pane-default-1">
+					Config WiFi
+				</div>
+				
+				<div class="mui-tabs__pane mui--is-active" id="pane-default-2">
+					<div class="mui-dropdown" style="z-index: 11000;">
+						<button class="mui-btn mui-btn--primary" data-mui-toggle="dropdown">Seleccionar parámetro <span class="mui-caret mui-caret--right"></span></button>
+						<ul class="mui-dropdown__menu">
+							<li v-for="item, index in mtrParametros" :key="item.id" @click="seleccionarParametro(index)" style="padding: 12px; border-bottom: 1px solid #e1e1e1; color: #333;">{{ item.titulo }} ({{ item.actual }} {{ item.unidad }})</li>
+						</ul>
+					</div>
+
+					<div v-if="configurando && parametroSeleccionado !== null" style="margin-top: 32px;">
+						{{ parametroSeleccionado.titulo }} ({{ parametroSeleccionado.actual}} {{ parametroSeleccionado.unidad }})
+						<br>
+						<button @click="decrementarParametro()" class="mui-btn mui-btn--small mui-btn--primary mui-btn--fab">-</button>
+						<input type="range" @change="cambiarParametro()" :min="parametroSeleccionado.min" :max="parametroSeleccionado.max" :value="sliderParametro" :step="parametroSeleccionado.steps" class="slider" id="myRange" style="width: 160px;">
+						<!-- <button class="mui-btn mui-btn--secondary mui-btn--large" style="width: 220px; height: 50px; font-size: 250%; margin-left: -28px; margin-right: -42px;">{{ parametroSeleccionado.actual }}</button> -->
+						<button @click="incrementarParametro()" class="mui-btn mui-btn--small mui-btn--primary mui-btn--fab">+</button>
+					</div>
+
+					<div v-if="mostrarBtnGuardar" style="margin-top: 32px; text-align: right;">
+						<button @click="mostrarBtnGuardar = false" class="mui-btn mui-btn--primary">Guardar</button>
+					</div>
+
+					<!-- <div v-for="item in mtrParametros" :key="item.id" style="margin-bottom: 32px;">
+						<div>
+							{{ item.titulo }}
+						</div>
+
+						<div class="slidecontainer">
+							<button class="mui-btn mui-btn--small mui-btn--primary mui-btn--fab">-</button>
+							<input type="range" min="1" max="100" value="50" class="slider" id="myRange" style="width: 160px;">
+							<button class="mui-btn mui-btn--small mui-btn--primary mui-btn--fab">+</button>
+						</div>
+					</div> -->
+				</div>
+				
+				<div class="mui-tabs__pane" id="pane-default-3">
+					Utilidades
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// https://www.muicss.com/docs
+		
+		var app = new Vue({
+			el: "#app",
+			data: {
+				ws: null,
+				rutaWs: "ws://192.168.0.223:1337",
+				intervaloCtrl: null,
+				estado: 0,
+				wsConectado: false,
+				textoEstado: "desconectado",
+				mtrParametros: [
+					{ "id": 0, "titulo": "Demora partida", "min": 0, "max": 60, "actual": 10, "unidad": "segs", "step": 5 },
+					{ "id": 1, "titulo": "Tiempo vuelo", "min": 60, "max": 360, "actual": 90, "unidad": "segs", "step": 5 },
+					{ "id": 2, "titulo": "Regimen nivelado motor", "min": 40, "max": 100, "actual": 70, "unidad": "%", "step": 5 },
+					{ "id": 3, "titulo": "Polos motor", "min": 6, "max": 16, "actual": 12, "unidad": "polos", "step": 1 },
+					{ "id": 4, "titulo": "Offset rpm motor", "min": -300, "max": 300, "actual": 0, "unidad": "rpm", "step": 10 },
+					{ "id": 5, "titulo": "Sensibilidad ajuste rpm", "min": 0, "max": 1000, "actual": 0, "unidad": "rpm", "step": 10 },
+					{ "id": 6, "titulo": "Incremento rpm trepadas", "min": 0, "max": 1000, "actual": 500, "unidad": "rpm", "step": 10 },
+					{ "id": 7, "titulo": "Decremento rpm bajadas", "min": 0, "max": 1000, "actual": 700, "unidad": "rpm", "step": 10 },
+				],
+				parametroSeleccionado: null,
+				configurando: false,
+				mostrarBtnGuardar: false,
+				sliderParametro: 0,
+			},
+
+			methods: {
+				conectarWs() {
+					this.ws = new WebSocket(this.rutaWs);
+
+					this.ws.onopen = (event) => {
+						this.estado = 1;
+						this.wsConectado = true;
+						this.textoEstado = "conectado";
+
+						this.intervaloCtrl = setInterval(() => {
+							if (this.estado == 2) {
+								this.estado = 1;
+							} else {
+								this.wsConectado = false;
+								this.textoEstado = "desconectado";
+								clearInterval(this.intervaloCtrl);
+								this.ws.close();
+							}
+						}, 5000);
+					}
+
+					this.ws.onclose = (event) => {
+						this.wsConectado = false;
+						this.conectarWs();
+					}
+
+					this.ws.onerror = (error) => {
+						this.wsConectado = false;
+						console.log(error);
+					}
+
+					this.ws.onmessage = (msj) => {
+						let json = JSON.parse(msj.data);
+
+						switch (json.topico) {
+							case "config": {
+								let i = 0;
+								json.datos.forEach(item => {
+									this.mtrParametros[i].actual = item.actual;
+									i++;
+								});
+								break;
+							}
+						}
+
+						this.estado = 2;
+					}
+				},
+
+				seleccionarParametro(index) {
+					this.configurando = true;
+					this.parametroSeleccionado = this.mtrParametros[index];
+					this.sliderParametro = this.parametroSeleccionado.actual;
+				},
+
+				incrementarParametro() {
+					this.mostrarBtnGuardar = true;
+					const indice = this.parametroSeleccionado.id;
+					if (this.mtrParametros[indice].actual < this.mtrParametros[indice].max) this.mtrParametros[indice].actual += this.mtrParametros[indice].step;
+				},
+
+				decrementarParametro() {
+					this.mostrarBtnGuardar = true;
+					const indice = this.parametroSeleccionado.id;
+					if (this.mtrParametros[indice].actual > this.mtrParametros[indice].min) this.mtrParametros[indice].actual -= this.mtrParametros[indice].step;
+				},
+
+				cambiarParametro() {
+					console.log(this.sliderParametro);
+				}
+			},
+
+			mounted() {
+				this.conectarWs();
+			}
+		})
+	</script>
+</body>
+
+</html>

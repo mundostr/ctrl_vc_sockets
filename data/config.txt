@@ -1,0 +1,8 @@
+retardoPartida=5
+tiempoVuelo=30
+rpmMotor=60
+polosMotor=14
+offsetMotor=0
+toleranciaRpm=1000
+ajusteRpmTrepadas=750
+ajusteRpmBajadas=500
