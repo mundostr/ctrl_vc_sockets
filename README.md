@@ -3,7 +3,7 @@
 Este proyecto consiste en un sistema programado bajo ecosistema Arduino, para ser utilizado como controlador de variadores brushless (ESC) en aeromodelos de Vuelo Circular.
 Puntualmente para esta versión, se ha utilizado como entorno de de desarrollo Visual Studio Code, con los plugins oficiales de PlatformIO y Espressif IDF.
 
-
+![](polos_controlador_01.jpg)
 
 Componentes:
 * Placa de desarrollo Wemos D1 Mini (u otra basada en módulo ESP8266 12F, con pocas modificaciones puede adaptarse también para módulos ESP32).
