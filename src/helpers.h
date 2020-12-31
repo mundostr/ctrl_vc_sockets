@@ -78,21 +78,20 @@ bool recuperarConfig() {
 	if (!archivoConfig) return false;
 
 	int valor;
-	int paramsRecuperados = 0;
 	String parametro;
 	
 	while (archivoConfig.available()) {
 		parametro = archivoConfig.readStringUntil('=');
 		valor = archivoConfig.readStringUntil('\n').toInt();
 
-		if (parametro == "retardoPartida") { parametros.partida = valor; paramsRecuperados++; }
-		if (parametro == "tiempoVuelo") { parametros.vuelo = valor; paramsRecuperados++; }
-		if (parametro == "rpmMotor") { parametros.rpm = valor; paramsRecuperados++; }
-		if (parametro == "polosMotor") { parametros.polos = valor; paramsRecuperados++; }
-		if (parametro == "offsetMotor") { parametros.offsetrpm = valor; paramsRecuperados++; }
-		if (parametro == "toleranciaRpm") { parametros.tolajrpm = valor; paramsRecuperados++; }
-		if (parametro == "ajusteRpmTrepadas") { parametros.ajrpmtrep = valor; paramsRecuperados++; }
-		if (parametro == "ajusteRpmBajadas") { parametros.ajrpmbaj = valor; paramsRecuperados++; }
+		if (parametro == "retardoPartida") { parametros.partida = valor; }
+		if (parametro == "tiempoVuelo") { parametros.vuelo = valor; }
+		if (parametro == "rpmMotor") { parametros.rpm = valor; }
+		if (parametro == "polosMotor") { parametros.polos = valor; }
+		if (parametro == "offsetMotor") { parametros.offsetrpm = valor; }
+		if (parametro == "toleranciaRpm") { parametros.tolajrpm = valor; }
+		if (parametro == "ajusteRpmTrepadas") { parametros.ajrpmtrep = valor; }
+		if (parametro == "ajusteRpmBajadas") { parametros.ajrpmbaj = valor; }
 	}
 
 	rpmObj = MIN_ESC + (parametros.rpm * 10);
@@ -109,7 +108,7 @@ bool actualizarConfig() {
 	File archivoConfig = LittleFS.open("/config.txt", "w");
 	if (!archivoConfig) return false;
 
-	String cadena = String(parametros.partida) + "\n" + String(parametros.vuelo) + "\n" + String(parametros.rpm) + "\n" + String(parametros.polos) + "\n" + String(parametros.offsetrpm) + "\n" + String(parametros.tolajrpm) + "\n" + String(parametros.ajrpmtrep) + "\n" + String(parametros.ajrpmbaj) + "\n";
+	String cadena = "retardoPartida=" + String(parametros.partida) + "\ntiempoVuelo=" + String(parametros.vuelo) + "\nrpmMotor=" + String(parametros.rpm) + "\npolosMotor=" + String(parametros.polos) + "\noffsetMotor=" + String(parametros.offsetrpm) + "\ntoleranciaRpm=" + String(parametros.tolajrpm) + "\najusteRpmTrepadas=" + String(parametros.ajrpmtrep) + "\najusteRpmBajadas=" + String(parametros.ajrpmbaj) + "\n";
 	int escrito = archivoConfig.print(cadena);
 	escrito > 0 ? retorno = true : retorno = false;
 
