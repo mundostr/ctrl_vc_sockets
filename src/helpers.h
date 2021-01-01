@@ -74,7 +74,7 @@ Task ctrlNotificacion(1000, TASK_FOREVER, &cbCtrlNotificacion);
 
 void cbCtrlNotificacion() {
 	if (!ctrlNotificacion.isFirstIteration()) {
-		frec_parpadeo_activo = 3000;
+		frec_parpadeo_activo = 1000;
 		ctrlLed.setInterval(frec_parpadeo_activo);
 		ctrlNotificacion.disable();
 	}
