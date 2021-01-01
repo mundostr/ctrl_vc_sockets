@@ -64,10 +64,21 @@ void cbCtrlSocket() {
 	webSocket.broadcastTXT(cadenaJson);
 }
 
+void cbCtrlNotificacion();
+
 Task ctrlLed(100, TASK_FOREVER, &cbCtrlLed);
 Task ctrlAceleracion(50, TASK_FOREVER, &cbCtrlAceleracion);
 Task ctrlHall(FREC_ACT_RPM, TASK_FOREVER, &cbCtrlHall);
 Task ctrlSocket(3000, TASK_FOREVER, &cbCtrlSocket);
+Task ctrlNotificacion(1000, TASK_FOREVER, &cbCtrlNotificacion);
+
+void cbCtrlNotificacion() {
+	if (!ctrlNotificacion.isFirstIteration()) {
+		frec_parpadeo_activo = 3000;
+		ctrlLed.setInterval(frec_parpadeo_activo);
+		ctrlNotificacion.disable();
+	}
+}
 
 void inicializarFS() {
 	while (!LittleFS.begin()) delay(500);
@@ -113,6 +124,12 @@ bool actualizarConfig() {
 	escrito > 0 ? retorno = true : retorno = false;
 
 	archivoConfig.close();
+
+	if (retorno) {
+		frec_parpadeo_activo = 100;
+		ctrlLed.setInterval(frec_parpadeo_activo);
+		ctrlNotificacion.enableIfNot();
+	}
 
 	return retorno;
 }
@@ -187,6 +204,7 @@ void inicializarTareas() {
 	tareas.addTask(ctrlVuelo);
 	tareas.addTask(ctrlHall);
 	tareas.addTask(ctrlSocket);
+	tareas.addTask(ctrlNotificacion);
 }
 
 void eventosWS(uint8_t num, WStype_t type, uint8_t *payload, size_t length) {

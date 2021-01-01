@@ -23,8 +23,8 @@
 
 const char* SSIDWF = "ctrl_vc_promo"; // SSID AP WiFi, cualquier nombre válido
 const char* CLAVEWF = "ctrl_vc_promo"; // Clave AP WiFi, cualquier clave válida (mínimo 8 caracteres)
-const char* SSIDWF_ST = "ssid"; // Datos wifi local (solo para depuración, no son necesarios en el uso habitual)
-const char* CLAVEWF_ST = "clave"; // Datos wifi local (solo para depuración, no son necesarios en el uso habitual)
+const char* SSIDWF_ST = "wifi_local"; // Datos wifi local (solo para depuración, no son necesarios en el uso habitual)
+const char* CLAVEWF_ST = "clave_wifi_local"; // Datos wifi local (solo para depuración, no son necesarios en el uso habitual)
 
 bool procesarUnaVez = true; // Helper p/ ejecutar procesos aislados solo cuando es necesario
 bool btnPresionado = false; // Flag indicador estado pulsador
