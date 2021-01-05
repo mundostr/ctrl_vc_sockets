@@ -3,6 +3,11 @@
 Este proyecto consiste en un sistema programado bajo ecosistema Arduino, para ser utilizado como controlador de variadores brushless (ESC) en aeromodelos de Vuelo Circular.
 Puntualmente para esta versión, se ha utilizado como entorno de desarrollo Visual Studio Code, con los plugins oficiales de PlatformIO y Espressif IDF.
 
+El objetivo es desarrollar 3 variantes de código para diferentes aplicaciones:
+* Código 1: para control esencial de regimen de variador (aplicable a vuelo sport nivelado, puede intentarse alguna maniobra sencilla como el looping, se notarán algunas quedadas de motor en trepadas y algunas aceleraciones en descensos, en mayor o menor medida de acuerdo a la relación peso / potencia del modelo).
+* Código 2: con idéntica base al código 1, pero con agregado de sensor hall. (En este caso el sensor permite monitorear de forma directa el movimiento de los polos del rotor, o bien utilizar imanes externos que se instalen según se desee, para poder calcular las rpm y reaccionar también a las variaciones que se detecten, ajustando el regimen del variador, es decir, realizando un control governor sencillo sobre las rpm del motor).
+* Código 3: puede montar también un sensor hall, pero agrega las lecturas de un sensor de medición inercial (IMU) para poder calcular en todo momento la posición de la nariz del modelo, y decidir en base a ello los ajustes a realizar en el regimen del motor.
+
 ![](polos_controlador_01.jpg)
 
 Componentes:
