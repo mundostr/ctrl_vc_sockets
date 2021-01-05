@@ -1,7 +1,7 @@
 # ctrl_vc_sockets
 
 Este proyecto consiste en un sistema programado bajo ecosistema Arduino, para ser utilizado como controlador de variadores brushless (ESC) en aeromodelos de Vuelo Circular.
-Puntualmente para esta versión, se ha utilizado como entorno de de desarrollo Visual Studio Code, con los plugins oficiales de PlatformIO y Espressif IDF.
+Puntualmente para esta versión, se ha utilizado como entorno de desarrollo Visual Studio Code, con los plugins oficiales de PlatformIO y Espressif IDF.
 
 ![](polos_controlador_01.jpg)
 
@@ -23,7 +23,7 @@ Características:
 * Configuración práctica por interfaz gráfica utilizable en móvil (Android).
 * Aceleración suave programada para partida.
 * Alerta de corte de motor antes del cierre de vuelo.
-* Parada de emergencia.
+* Parada de emergencia accionable desde app u opcionalmente desde botón de pánico.
 * Items seteables:
 	* Demora partida: el tiempo a esperar antes de arrancar el motor luego de iniciada la secuencia (segundos).
 	* Tiempo vuelo: el tiempo neto de vuelo (segundos).
@@ -31,8 +31,8 @@ Características:
 	* Polos motor: cantidad de polos en el rotor p/cálculo de rpm (unidades).
 	* Offset motor: ajuste de desviación en la lectura de rpm (unidades).
   * Tolerancia ajuste RPM: variación mínima de régimen que debe suceder para realizar un ajuste (rpm).
-  * Ajuste RPM trepada: régimen a adicionar al valor actual p/ mejorar la trepada (rpm).
-  * Ajuste RPM bajada: régimen a descontar al valor actual p/ suavizar el descenso (rpm).
+  * Ajuste RPM trepada: regimen a adicionar al valor actual p/ mejorar la trepada (rpm).
+  * Ajuste RPM bajada: regimen a descontar al valor actual p/ suavizar el descenso (rpm).
 
 Uso:
 <!-- * Solo la primera vez (o cuando se notifique sobre alguna actualización del firmware en este repo), se debe visitar desde el teléfono la direccion (https://direcci.on) para descargar la interfaz de configuración. En ese momento el navegador da la opción de instalar una copia local en el móvil, ya que se trata simplemente de una PWA.
