@@ -27,6 +27,9 @@ void setup() {
 	// Serial.begin(115200); // Inicialización consola serial (solo para debug)
 	// Serial.setDebugOutput(true);
 
+	delay(1000);
+	ESP.wdtDisable(); // Deshabilitación watchdog por software
+
 	inicializarPines(); // Seteo de pines
 	armarVariador(); // Pulsos p/armado ESC, ejecutado primero para mayor compatibilidad
 	inicializarTareas(); // Activación de tareas
@@ -149,6 +152,7 @@ void loop() {
 
 	tareas.execute(); // Control general de tareas
 	webSocket.loop(); // Control del socket
+	ESP.wdtFeed(); // Alimentación watchdog por hardware
 	
 	if (modo != DETENIDO) { // Controles en cualquier modo, excepto DETENIDO
 		controlarPulsador();
