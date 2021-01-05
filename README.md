@@ -1,6 +1,6 @@
-# ctrl_vc_sockets
+# Control Vuelo Circular Sockets (ctrl_vc_sockets)
 
-Este proyecto consiste en un sistema programado bajo ecosistema Arduino, para ser utilizado como controlador de variadores brushless (ESC) en aeromodelos de Vuelo Circular.
+<img src="logo_car.png" style="width: 250px; float: left; margin-left: 16px; margin-bottom: 16px;">Este proyecto consiste en un sistema programado bajo ecosistema Arduino, para ser utilizado como controlador de variadores brushless (ESC) en aeromodelos de Vuelo Circular.
 Puntualmente para esta versión, se ha utilizado como entorno de desarrollo Visual Studio Code, con los plugins oficiales de PlatformIO y Espressif IDF.
 
 El objetivo es desarrollar 3 variantes de código para diferentes aplicaciones:
@@ -39,7 +39,13 @@ Características:
   * Ajuste RPM trepada: regimen a adicionar al valor actual p/ mejorar la trepada (rpm).
   * Ajuste RPM bajada: regimen a descontar al valor actual p/ suavizar el descenso (rpm).
 
-Uso:
+Todo (por hacer):
+* depurar código IMU para implementar versión release del control inercial.
+* agregar variante OTA (Over The Air) para permitir la actualización inalámbrica de firmware directamente desde servidor.
+* agregar alternativa para almacenar diferentes combinaciones de seteos en app.
+* agregar alternativa para backup de seteos en app.
+
+<!-- Uso: -->
 <!-- * Solo la primera vez (o cuando se notifique sobre alguna actualización del firmware en este repo), se debe visitar desde el teléfono la direccion (https://direcci.on) para descargar la interfaz de configuración. En ese momento el navegador da la opción de instalar una copia local en el móvil, ya que se trata simplemente de una PWA.
 * Ni bien es conectada, la placa se presenta como un punto de acceso WiFi (AP), bajo un nombre y clave predefinidos en el firmware.
 * Desde el gestor Wifi del teléfono, se debe conectar a esta red, y acto seguido utilizar el ícono generado por la instalación PWA del paso anterior para abrir la interfaz.
