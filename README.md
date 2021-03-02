@@ -1,4 +1,4 @@
-# Control Vuelo Circular Sockets (ctrl_vc_sockets)
+# Controlador Vuelo Circular Sockets (ctrl_vc_sockets)
 
 <img src="logo_car.png" align="left" width="250">Este proyecto consiste en un sistema programado bajo ecosistema Arduino, para ser utilizado como controlador de variadores brushless (ESC) en aeromodelos de Vuelo Circular.
 Puntualmente para esta versión, se ha utilizado como entorno de desarrollo Visual Studio Code, con los plugins oficiales de PlatformIO y Espressif IDF.
