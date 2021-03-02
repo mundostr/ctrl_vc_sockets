@@ -16,7 +16,7 @@
 #define PORC_RPM_NOTIF 0.85 // % tiempo vuelo p/notificación parada
 #define PORC_RPM_ATERRIZAJE 1.2 // % extra motor p/aterrizaje
 #define CONF_INICIO 500 // Duración aviso de confirmación inicio
-#define ANTICIPO_INICIO 100 // Momento notificación inicio (ms)
+#define ANTICIPO_INICIO 200 // Momento notificación inicio (ms)
 #define TIEMPO_NOTIF 1000 // duración reducción rpm notificación parada
 #define TIEMPO_RPM_REF 10000 // Momento p/registro rpm referencia luego del despegue
 #define ANTICIPO_NOTIF 5000 // Momento notificación parada (ms)
@@ -45,7 +45,7 @@ volatile int contadorHall = 0; // Variable conteo pulsos sensor hall
 unsigned long timerInicio, timerCentral, timerHall; // Timer ctrl inicio secuencia, tiempos generales y espera hall
 float kRpm = 0; // Coeficiente para cálculo de rpm
 
-struct formatoParametros { int partida = -9999; int vuelo = -9999; int rpm = -9999; int polos = -9999; int offsetrpm = -9999; int tolajrpm = -9999; int ajrpmtrep = -9999; int ajrpmbaj = -9999; } parametros; // parámetros de vuelo
+struct formatoParametros { int partida = -9999; int vuelo = -9999; float rpm = -9999; int polos = -9999; int offsetrpm = -9999; int tolajrpm = -9999; int ajrpmtrep = -9999; int ajrpmbaj = -9999; } parametros; // parámetros de vuelo
 
 enum modos { LISTO, EN_PARTIDA, ACELERANDO, EN_VUELO, DETENIDO } modo; // modos de vuelo
 

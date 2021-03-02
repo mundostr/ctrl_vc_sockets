@@ -88,16 +88,18 @@ bool recuperarConfig() {
 	File archivoConfig = LittleFS.open("/config.txt", "r");
 	if (!archivoConfig) return false;
 
-	int valor;
+	int valor = 0;
+	float valorFloat = 0.0;
 	String parametro;
 	
 	while (archivoConfig.available()) {
 		parametro = archivoConfig.readStringUntil('=');
-		valor = archivoConfig.readStringUntil('\n').toInt();
+		parametro == "rpmMotor" ? valorFloat = archivoConfig.readStringUntil('\n').toFloat() : valor = archivoConfig.readStringUntil('\n').toInt();
+		// valor = archivoConfig.readStringUntil('\n').toInt();
 
 		if (parametro == "retardoPartida") { parametros.partida = valor; }
 		if (parametro == "tiempoVuelo") { parametros.vuelo = valor; }
-		if (parametro == "rpmMotor") { parametros.rpm = valor; }
+		if (parametro == "rpmMotor") { parametros.rpm = valorFloat; }
 		if (parametro == "polosMotor") { parametros.polos = valor; }
 		if (parametro == "offsetMotor") { parametros.offsetrpm = valor; }
 		if (parametro == "toleranciaRpm") { parametros.tolajrpm = valor; }
@@ -228,8 +230,8 @@ void eventosWS(uint8_t num, WStype_t type, uint8_t *payload, size_t length) {
 		// objJson["modo"] = modo;
 		
 		partida = "{ \"id\": 1, \"titulo\": \"Demora partida (segs)\", \"min\": 0, \"max\": 60, \"steps\": 5, \"actual\": " + String(parametros.partida) + " }";
-		vuelo = "{ \"id\": 2, \"titulo\": \"Tiempo vuelo (segs)\", \"min\": 30, \"max\": 180, \"steps\": 5, \"actual\": " + String(parametros.vuelo) + " }";
-		rpm = "{ \"id\": 3, \"titulo\": \"Regimen motor (% ESC)\", \"min\": 30, \"max\": 100, \"steps\": 1, \"actual\": " + String(parametros.rpm) + " }";
+		vuelo = "{ \"id\": 2, \"titulo\": \"Tiempo vuelo (segs)\", \"min\": 30, \"max\": 360, \"steps\": 1, \"actual\": " + String(parametros.vuelo) + " }";
+		rpm = "{ \"id\": 3, \"titulo\": \"Regimen motor (% ESC)\", \"min\": 20, \"max\": 100, \"steps\": 0.1, \"actual\": " + String(parametros.rpm) + " }";
 		polos = "{ \"id\": 4, \"titulo\": \"Polos motor\", \"min\": 1, \"max\": 16, \"steps\": 1, \"actual\": " + String(parametros.polos) + " }";
 		offsetrpm = "{ \"id\": 5, \"titulo\": \"Offset lectura rpm\", \"min\": -500, \"max\": 500, \"steps\": 1, \"actual\": " + String(parametros.offsetrpm) + " }";
 		tolajrpm = "{ \"id\": 6, \"titulo\": \"Tolerancia variación rpm\", \"min\": 0, \"max\": 2000, \"steps\": 50, \"actual\": " + String(parametros.tolajrpm) + " }";
@@ -271,7 +273,7 @@ void eventosWS(uint8_t num, WStype_t type, uint8_t *payload, size_t length) {
 
 			const int partida = cadenaDatos->getItemAtIndex(0).toInt();
 			const int vuelo = cadenaDatos->getItemAtIndex(1).toInt();
-			const int rpm = cadenaDatos->getItemAtIndex(2).toInt();
+			const float rpm = cadenaDatos->getItemAtIndex(2).toFloat();
 			const int polos = cadenaDatos->getItemAtIndex(3).toInt();
 			const int offsetrpm = cadenaDatos->getItemAtIndex(4).toInt();
 			const int tolajrpm = cadenaDatos->getItemAtIndex(5).toInt();

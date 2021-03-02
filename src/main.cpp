@@ -24,7 +24,7 @@
 #include "helpers.h"
 
 void setup() {
-	// Serial.begin(115200); // Inicialización consola serial (solo para debug)
+	Serial.begin(115200); // Inicialización consola serial (solo para debug)
 	// Serial.setDebugOutput(true);
 
 	delay(1000);
@@ -110,7 +110,8 @@ void loop() {
 		case EN_VUELO: {
 			// Unos momentos después de iniciado el vuelo y estabilizadas las rpm
 			// se registran los límites tolerables y se inicia la tarea de ctrl
-			if (millis() - timerCentral >= TIEMPO_RPM_REF) ctrlVuelo.enableIfNot();
+			// parametros.tolajrpm en 0 deshabilita el governor
+			if (millis() - timerCentral >= TIEMPO_RPM_REF && parametros.tolajrpm > 0) ctrlVuelo.enableIfNot();
 
 			// Unos segs antes del cierre del vuelo, se genera una pequeña caída de rpm en el motor
 			// como aviso de que el tiempo está pronto a terminar.
